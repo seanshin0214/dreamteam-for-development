@@ -70,7 +70,7 @@
 ### 1. 저장소 클론
 
 ```bash
-git clone https://github.com/seanjin-sj/dreamteam-for-development.git
+git clone https://github.com/seanshin0214/dreamteam-for-development.git
 cd dreamteam-for-development
 ```
 
@@ -171,7 +171,7 @@ MIT License
 
 ## Author
 
-Created by @seanjin-sj
+Created by @seanshin0214
 
 ---
 
