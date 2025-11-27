@@ -3,6 +3,12 @@ import os
 import sys
 from pathlib import Path
 from typing import Optional
+
+# Windows stdout/stderr UTF-8 설정
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
@@ -13,9 +19,16 @@ sys.path.insert(0, str(Path(__file__).parent))
 from vector_store import DreamTeamVectorStore
 
 
-# 벡터 스토어 초기화
+# 벡터 스토어 지연 로딩 (Lazy Loading)
 DATA_DIR = Path(__file__).parent.parent / "data" / "chroma_db"
-vector_store = DreamTeamVectorStore(str(DATA_DIR))
+_vector_store = None
+
+def get_vector_store():
+    """벡터 스토어를 처음 사용할 때 초기화 (지연 로딩)"""
+    global _vector_store
+    if _vector_store is None:
+        _vector_store = DreamTeamVectorStore(str(DATA_DIR))
+    return _vector_store
 
 # MCP 서버 생성
 server = Server("dreamteam-for-development")
@@ -157,7 +170,7 @@ async def call_tool(name: str, arguments: dict):
         query = arguments.get("query", "")
         n_results = arguments.get("n_results", 5)
 
-        results = vector_store.search(query, n_results=n_results)
+        results = get_vector_store().search(query, n_results=n_results)
 
         if not results:
             return [TextContent(
@@ -187,7 +200,7 @@ async def call_tool(name: str, arguments: dict):
                      "\n".join(f"- {k}: {v}" for k, v in ROLE_DESCRIPTIONS.items())
             )]
 
-        results = vector_store.search_by_role(query, role, n_results=n_results)
+        results = get_vector_store().search_by_role(query, role, n_results=n_results)
 
         if not results:
             return [TextContent(
@@ -210,14 +223,14 @@ async def call_tool(name: str, arguments: dict):
         for role_id, desc in ROLE_DESCRIPTIONS.items():
             output += f"| `{role_id}` | {desc} |\n"
 
-        stored_roles = vector_store.get_all_roles()
+        stored_roles = get_vector_store().get_all_roles()
         output += f"\n\n**저장된 역할 수**: {len(stored_roles)}"
 
         return [TextContent(type="text", text=output)]
 
     elif name == "get_stats":
-        doc_count = vector_store.get_document_count()
-        roles = vector_store.get_all_roles()
+        doc_count = get_vector_store().get_document_count()
+        roles = get_vector_store().get_all_roles()
 
         output = "## 📊 DreamTeam 지식 베이스 통계\n\n"
         output += f"- **총 문서 청크 수**: {doc_count}\n"
