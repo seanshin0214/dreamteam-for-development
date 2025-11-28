@@ -165,6 +165,44 @@ python src/data_loader.py "페르소나_파일_경로"
 | 업데이트 | 프롬프트 수정 | 지식 베이스 갱신 |
 | 정확도 | 가변적 | 임베딩된 지식 기반 |
 
+## Claude Code 슬래시 커맨드 설정
+
+Claude Code에서 `/dreamteam` 명령어로 바로 사용할 수 있습니다.
+
+### 설치 방법
+
+1. 커맨드 파일 복사:
+```bash
+# Windows
+copy claude-code\dreamteam.md %USERPROFILE%\.claude\commands\
+
+# macOS/Linux
+cp claude-code/dreamteam.md ~/.claude/commands/
+```
+
+2. Claude Code 재시작
+
+### 사용법
+
+```
+/dreamteam FastAPI에서 JWT 인증 구현 방법
+/dreamteam Kubernetes 배포 전략
+/dreamteam React 성능 최적화
+/dreamteam PostgreSQL 인덱스 설계
+/dreamteam 인시던트 대응 프로세스
+```
+
+이 명령어를 사용하면 자동으로 DreamTeam MCP에서 관련 전문가 지식을 검색하고, 필요한 스킬과 함께 종합적인 답변을 제공합니다.
+
+### 지원 클라이언트
+
+| 클라이언트 | MCP 지원 | 슬래시 커맨드 |
+|-----------|---------|--------------|
+| Claude Code | ✅ | ✅ `/dreamteam` |
+| Claude Desktop | ✅ | ❌ |
+| Cursor | ✅ | ❌ |
+| Windsurf | ✅ | ❌ |
+
 ## 라이선스
 
 MIT License
