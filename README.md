@@ -1,8 +1,17 @@
 # DreamTeam For Development
 
+<div align="center">
+
+[![GitHub stars](https://img.shields.io/github/stars/seanshin0214/dreamteam-for-development?style=social)](https://github.com/seanshin0214/dreamteam-for-development/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/seanshin0214/dreamteam-for-development?style=social)](https://github.com/seanshin0214/dreamteam-for-development/network/members)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![MCP](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
+
+**:star: 이 프로젝트가 도움이 되셨다면 [Star](https://github.com/seanshin0214/dreamteam-for-development/stargazers)를 눌러주세요! :star:**
+
+</div>
 
 > **RAG 기반 개발팀 페르소나 지식 검색 MCP 서버**
 >
@@ -276,4 +285,16 @@ MIT License - Copyright (c) 2024 Sean Shin (@seanshin0214)
 
 ---
 
-⭐ 이 프로젝트가 유용하다면 Star를 눌러주세요!
+<div align="center">
+
+## :star: Support This Project :star:
+
+**DreamTeam이 도움이 되셨다면 GitHub Star를 눌러주세요!**
+
+여러분의 Star가 프로젝트 발전의 큰 힘이 됩니다.
+
+[![GitHub stars](https://img.shields.io/github/stars/seanshin0214/dreamteam-for-development?style=for-the-badge&logo=github)](https://github.com/seanshin0214/dreamteam-for-development/stargazers)
+
+[🌟 Star 누르러 가기](https://github.com/seanshin0214/dreamteam-for-development)
+
+</div>
