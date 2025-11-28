@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import List, Optional
 import chromadb
 from chromadb.config import Settings
-from sentence_transformers import SentenceTransformer
 
 
 class DreamTeamVectorStore:
@@ -12,15 +11,37 @@ class DreamTeamVectorStore:
 
     def __init__(self, persist_directory: str = "./data/chroma_db"):
         self.persist_directory = persist_directory
-        self.client = chromadb.PersistentClient(
-            path=persist_directory,
-            settings=Settings(anonymized_telemetry=False)
-        )
-        self.collection = self.client.get_or_create_collection(
-            name="dreamteam_knowledge",
-            metadata={"description": "Development Team Persona Knowledge Base"}
-        )
-        self.encoder = SentenceTransformer('all-MiniLM-L6-v2')
+        self._client = None
+        self._collection = None
+        self._encoder = None
+
+    @property
+    def client(self):
+        """ChromaDB 클라이언트 지연 로딩"""
+        if self._client is None:
+            self._client = chromadb.PersistentClient(
+                path=self.persist_directory,
+                settings=Settings(anonymized_telemetry=False)
+            )
+        return self._client
+
+    @property
+    def collection(self):
+        """컬렉션 지연 로딩"""
+        if self._collection is None:
+            self._collection = self.client.get_or_create_collection(
+                name="dreamteam_knowledge",
+                metadata={"description": "Development Team Persona Knowledge Base"}
+            )
+        return self._collection
+
+    @property
+    def encoder(self):
+        """SentenceTransformer 인코더 지연 로딩 (가장 무거운 부분)"""
+        if self._encoder is None:
+            from sentence_transformers import SentenceTransformer
+            self._encoder = SentenceTransformer('all-MiniLM-L6-v2')
+        return self._encoder
 
     def add_documents(self, documents: List[dict]) -> int:
         """문서들을 벡터 스토어에 추가

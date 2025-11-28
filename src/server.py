@@ -19,15 +19,28 @@ sys.path.insert(0, str(Path(__file__).parent))
 from vector_store import DreamTeamVectorStore
 
 
-# 벡터 스토어 지연 로딩 (Lazy Loading)
+# 벡터 스토어 - 백그라운드 초기화 (서버 시작 빠르게 + 타임아웃 방지)
 DATA_DIR = Path(__file__).parent.parent / "data" / "chroma_db"
+
+import threading
 _vector_store = None
+_init_lock = threading.Lock()
+_init_done = threading.Event()
+
+def _background_init():
+    """백그라운드에서 모델 로딩"""
+    global _vector_store
+    _vector_store = DreamTeamVectorStore(str(DATA_DIR))
+    _ = _vector_store.encoder  # SentenceTransformer 로드
+    _init_done.set()
+    print("벡터 스토어 준비 완료", file=sys.stderr)
+
+# 백그라운드 스레드로 즉시 시작
+threading.Thread(target=_background_init, daemon=True).start()
 
 def get_vector_store():
-    """벡터 스토어를 처음 사용할 때 초기화 (지연 로딩)"""
-    global _vector_store
-    if _vector_store is None:
-        _vector_store = DreamTeamVectorStore(str(DATA_DIR))
+    """벡터 스토어 반환 (초기화 완료 대기)"""
+    _init_done.wait()  # 초기화 완료까지 대기
     return _vector_store
 
 # MCP 서버 생성
