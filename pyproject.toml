@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dreamteam-for-development"
+version = "1.0.0"
+description = "RAG-based Development Team Persona Knowledge System for MCP"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Sean Shin", email = "sshin@geri.kr"}
+]
+maintainers = [
+    {name = "Sean Shin", email = "sshin@geri.kr"}
+]
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "rag",
+    "persona",
+    "development-team",
+    "ai-assistant",
+    "claude",
+    "langchain",
+    "chromadb"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "chromadb>=0.4.22",
+    "sentence-transformers>=2.2.2",
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.20",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/seanshin0214/dreamteam-for-development"
+Repository = "https://github.com/seanshin0214/dreamteam-for-development.git"
+Issues = "https://github.com/seanshin0214/dreamteam-for-development/issues"
+Documentation = "https://github.com/seanshin0214/dreamteam-for-development#readme"
+
+[project.scripts]
+dreamteam-server = "src.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true

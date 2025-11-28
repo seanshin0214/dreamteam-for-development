@@ -1,10 +1,16 @@
-# DreamTeam For Development MCP Server
+# DreamTeam For Development
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
 
 > **RAG 기반 개발팀 페르소나 지식 검색 MCP 서버**
 >
-> 이것은 단순히 "당신은 백엔드 개발자입니다"라고 선언하는 페르소나가 아닙니다.
-> 17명의 World-Class 개발팀 전문가의 **실제 지식, 코드 패턴, 의사결정 프레임워크, 체크리스트**가
-> 벡터 데이터베이스에 임베딩되어 RAG(Retrieval Augmented Generation)로 검색됩니다.
+> Created by **Sean Shin** ([@seanshin0214](https://github.com/seanshin0214))
+
+이것은 단순히 "당신은 백엔드 개발자입니다"라고 선언하는 페르소나가 아닙니다.
+17명의 World-Class 개발팀 전문가의 **실제 지식, 코드 패턴, 의사결정 프레임워크, 체크리스트**가
+벡터 데이터베이스에 임베딩되어 RAG(Retrieval Augmented Generation)로 검색됩니다.
 
 ## Why RAG-based Persona?
 
@@ -65,30 +71,51 @@
 | Quality Standards | 코드 품질, 성능 기준, 보안 체크리스트 |
 | Team Collaboration | 기능 개발, 장애 대응, 기술 부채 해결 시나리오 |
 
-## 설치
+## 빠른 시작
 
-### 1. 저장소 클론
+### 자동 설치
+
+```bash
+# 저장소 클론
+git clone https://github.com/seanshin0214/dreamteam-for-development.git
+cd dreamteam-for-development
+
+# 설치 스크립트 실행
+# macOS/Linux
+chmod +x install.sh && ./install.sh
+
+# Windows
+install.bat
+```
+
+### 수동 설치
+
+#### 1. 저장소 클론
 
 ```bash
 git clone https://github.com/seanshin0214/dreamteam-for-development.git
 cd dreamteam-for-development
 ```
 
-### 2. 의존성 설치
+#### 2. 의존성 설치
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. 지식 베이스 구축
+#### 3. 지식 베이스 구축
 
-페르소나 마크다운 파일이 있는 디렉토리에서:
-
+샘플 데이터로 시작:
 ```bash
-python src/data_loader.py "페르소나_파일_경로"
+python src/data_loader.py "examples/personas"
 ```
 
-### 4. MCP 서버 등록
+또는 자체 페르소나 파일:
+```bash
+python src/data_loader.py "your/persona/files/path"
+```
+
+#### 4. MCP 서버 등록
 
 **Claude Code** (`~/.claude/mcp.json`):
 ```json
@@ -96,7 +123,7 @@ python src/data_loader.py "페르소나_파일_경로"
   "mcpServers": {
     "dreamteam-for-development": {
       "command": "python",
-      "args": ["경로/src/server.py"],
+      "args": ["/path/to/dreamteam-for-development/src/server.py"],
       "env": {
         "PYTHONIOENCODING": "utf-8"
       }
@@ -111,7 +138,7 @@ python src/data_loader.py "페르소나_파일_경로"
   "mcpServers": {
     "dreamteam-for-development": {
       "command": "python",
-      "args": ["경로/src/server.py"],
+      "args": ["/path/to/dreamteam-for-development/src/server.py"],
       "env": {
         "PYTHONIOENCODING": "utf-8"
       }
@@ -120,8 +147,42 @@ python src/data_loader.py "페르소나_파일_경로"
 }
 ```
 
-**Cursor / Windsurf / Antigravity**:
-각 도구의 `~/.{tool}/mcp.json`에 동일하게 추가
+> 📁 예시 설정 파일: `examples/mcp-claude-code.json`, `examples/mcp-claude-desktop.json`
+
+## Claude Code 슬래시 커맨드
+
+Claude Code에서 `/dreamteam` 명령어로 바로 사용할 수 있습니다.
+
+### 설치 방법
+
+```bash
+# Windows
+copy claude-code\dreamteam.md %USERPROFILE%\.claude\commands\
+
+# macOS/Linux
+cp claude-code/dreamteam.md ~/.claude/commands/
+```
+
+Claude Code 재시작 후 사용 가능!
+
+### 사용법
+
+```
+/dreamteam FastAPI에서 JWT 인증 구현 방법
+/dreamteam Kubernetes 배포 전략
+/dreamteam React 성능 최적화
+/dreamteam PostgreSQL 인덱스 설계
+/dreamteam 인시던트 대응 프로세스
+```
+
+### 지원 클라이언트
+
+| 클라이언트 | MCP 지원 | 슬래시 커맨드 |
+|-----------|---------|--------------|
+| Claude Code | ✅ | ✅ `/dreamteam` |
+| Claude Desktop | ✅ | ❌ |
+| Cursor | ✅ | ❌ |
+| Windsurf | ✅ | ❌ |
 
 ## 사용 가능한 도구
 
@@ -165,54 +226,54 @@ python src/data_loader.py "페르소나_파일_경로"
 | 업데이트 | 프롬프트 수정 | 지식 베이스 갱신 |
 | 정확도 | 가변적 | 임베딩된 지식 기반 |
 
-## Claude Code 슬래시 커맨드 설정
-
-Claude Code에서 `/dreamteam` 명령어로 바로 사용할 수 있습니다.
-
-### 설치 방법
-
-1. 커맨드 파일 복사:
-```bash
-# Windows
-copy claude-code\dreamteam.md %USERPROFILE%\.claude\commands\
-
-# macOS/Linux
-cp claude-code/dreamteam.md ~/.claude/commands/
-```
-
-2. Claude Code 재시작
-
-### 사용법
+## 프로젝트 구조
 
 ```
-/dreamteam FastAPI에서 JWT 인증 구현 방법
-/dreamteam Kubernetes 배포 전략
-/dreamteam React 성능 최적화
-/dreamteam PostgreSQL 인덱스 설계
-/dreamteam 인시던트 대응 프로세스
+dreamteam-for-development/
+├── src/
+│   ├── server.py          # MCP 서버 메인
+│   ├── vector_store.py    # ChromaDB 래퍼
+│   └── data_loader.py     # 마크다운 → 벡터 변환
+├── claude-code/
+│   └── dreamteam.md       # 슬래시 커맨드
+├── examples/
+│   ├── personas/          # 샘플 페르소나 파일
+│   ├── mcp-claude-code.json
+│   └── mcp-claude-desktop.json
+├── data/
+│   └── chroma_db/         # 벡터 DB (자동 생성)
+├── install.sh             # Linux/macOS 설치
+├── install.bat            # Windows 설치
+├── requirements.txt
+├── pyproject.toml
+├── LICENSE
+├── CONTRIBUTING.md
+└── README.md
 ```
 
-이 명령어를 사용하면 자동으로 DreamTeam MCP에서 관련 전문가 지식을 검색하고, 필요한 스킬과 함께 종합적인 답변을 제공합니다.
+## 기여하기
 
-### 지원 클라이언트
-
-| 클라이언트 | MCP 지원 | 슬래시 커맨드 |
-|-----------|---------|--------------|
-| Claude Code | ✅ | ✅ `/dreamteam` |
-| Claude Desktop | ✅ | ❌ |
-| Cursor | ✅ | ❌ |
-| Windsurf | ✅ | ❌ |
+기여를 환영합니다! [CONTRIBUTING.md](CONTRIBUTING.md)를 참조해주세요.
 
 ## 라이선스
 
-MIT License
+MIT License - Copyright (c) 2024 Sean Shin (@seanshin0214)
+
+자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
 ## Author
 
-Created by @seanshin0214
+**Sean Shin** ([@seanshin0214](https://github.com/seanshin0214))
+
+- Email: sshin@geri.kr
+- GitHub: https://github.com/seanshin0214
 
 ---
 
 > **"페르소나는 선언이 아니라 지식이다."**
 >
 > DreamTeam은 17명의 전문가가 실제로 알고 있는 것을 RAG로 검색합니다.
+
+---
+
+⭐ 이 프로젝트가 유용하다면 Star를 눌러주세요!

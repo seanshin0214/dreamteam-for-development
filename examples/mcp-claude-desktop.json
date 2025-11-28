@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "dreamteam-for-development": {
+      "command": "python",
+      "args": [
+        "C:/path/to/dreamteam-for-development/src/server.py"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1"
+      }
+    }
+  }
+}
